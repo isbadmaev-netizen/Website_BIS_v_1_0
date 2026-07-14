@@ -45,7 +45,11 @@ export const handler = async (event, context) => {
     return {
       statusCode: 403,
       headers,
-      body: JSON.stringify({ error: 'Доступ запрещён' }),
+      body: JSON.stringify({ 
+        error: 'Доступ запрещён',
+        received: origin,            // ПОКАЖЕТ, ЧТО ПРИШЛО
+        allowed: ALLOWED_ORIGINS     // ПОКАЖЕТ, ЧТО ОЖИДАЛОСЬ
+      }),
     };
   }
 
