@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Иннокентий Бадмаев &mdash; Эксперт по рынку труда, инклюзии и цифровому развитию</title>
+  <meta name="description" content="Иннокентий Бадмаев — эксперт на стыке государства, бизнеса и общества. GR-консалтинг, IT-аккредитация, инклюзивные программы, экспертные лекции.">
+  <meta name="author" content="Иннокентий Бадмаев">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://badmaev.example/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Иннокентий Бадмаев — Эксперт по рынку труда, инклюзии и цифровому развитию">
+  <meta property="og:description" content="Строю мосты между государством, бизнесом и людьми. Из Улан-Удэ на всю Россию.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:image" content="assets/images/og-cover.jpg">
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/favicons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png">
+
+  <!-- Предзагрузка критичного шрифта ускоряет First Contentful Paint -->
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Стили: строго normalize перед кастомными стилями -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Структурированные данные Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Иннокентий Сергеевич Бадмаев",
+    "jobTitle": "Эксперт по рынку труда, инклюзии и цифровому развитию",
+    "description": "Эксперт на стыке государства, бизнеса и общества. Участник разработки Постановления Правительства РФ №130.",
+    "url": "https://badmaev.example/",
+    "sameAs": [
+      "https://www.linkedin.com/in/isbadmaev",
+      "https://t.me/i_badmaev"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Skip-link для клавиатурной навигации и screen-readers (a11y) -->
+  <a href="#main-content" class="skip-link">Перейти к основному содержанию</a>
+
+  <!-- ==================== HEADER / NAVIGATION ==================== -->
+  <header class="header">
+    <div class="header__container">
+      <a href="#hero" class="header__logo">И. Бадмаев</a>
+
+      <nav class="nav" aria-label="Основная навигация">
+        <!-- Бургер -->
+        <button class="nav__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-menu">
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+          <span class="nav__burger-line"></span>
+        </button>
+
+        <!-- Затемняющий фон (оверлей) -->
+        <div class="nav__overlay" id="nav-overlay"></div>
+
+        <!-- Выезжающая панель меню -->
+        <div class="nav__menu" id="nav-menu" role="navigation">
+          <button class="nav__close" type="button" aria-label="Закрыть меню">
+            &times;
+          </button>
+          
+          <a class="nav__link" href="#matrix">Экспертиза</a>
+          <a class="nav__link" href="#services">Направления</a>
+          <a class="nav__link" href="#cases">Кейсы</a>
+          <a class="nav__link nav__link--cta" href="#contact">Сотрудничество</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" id="main-content">
+
+    <!-- ==================== 1. HERO ==================== -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__media" aria-hidden="true"></div>
+
+      <div class="hero__container">
+        <div class="hero__content">
+          <img src="assets/images/avatar.jpg" alt="Иннокентий Бадмаев" class="hero__avatar">
+          
+          <h1 class="hero__title" id="hero-title">Эксперт по рынку труда, инклюзии и цифровому развитию.</h1>
+          <p class="hero__subtitle">Строю мосты между государством, бизнесом и людьми. Из Улан-Удэ на всю Россию.</p>
+          <p class="hero__lead">Прошел путь от следователя СК РФ до руководителя проектов Минцифры и заместителя GR-директора hh.ru. Помогаю бизнесу говорить с государством, а государству — слышать людей. Решаю задачи там, где требуются переговоры на высшем уровне и понимание регуляторной логики изнутри.</p>
+          <a href="#contact" class="hero__cta button button--primary">Начать диалог</a>
+        </div>
+
+        <div class="hero__stats" role="list" aria-label="Ключевые показатели">
+          <div class="hero__stat" role="listitem">
+            <span class="hero__stat-number">6,5 млрд ₽</span>
+            <span class="hero__stat-label">ежегодной экономии благодаря сохранению IT-льгот для бизнеса</span>
+          </div>
+          <div class="hero__stat" role="listitem">
+            <span class="hero__stat-number">№130</span>
+            <span class="hero__stat-label">Постановление Правительства РФ, разработанное при моем авторстве</span>
+          </div>
+          <div class="hero__stat" role="listitem">
+            <span class="hero__stat-number">>150 млн ₽</span>
+            <span class="hero__stat-label">управлял портфелем региональных образовательных проектов</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. МАТРИЦА УНИКАЛЬНОСТИ ==================== -->
+    <section class="matrix" id="matrix" aria-labelledby="matrix-title">
+      <div class="matrix__container">
+        <h2 class="matrix__title" id="matrix-title">Три мира. Один эксперт.</h2>
+        <p class="matrix__subtitle">Редкая компетенция — опыт работы внутри каждого из ключевых секторов экономики.</p>
+
+        <div class="matrix__grid">
+          <article class="matrix__card">
+            <h3 class="matrix__card-title">Государство</h3>
+            <p class="matrix__card-text">Следственный комитет РФ и Минцифры России. Глубокое понимание правоохранительной практики, нормотворчества и архитектуры федеральных проектов, таких как нацпроект «Экономика данных».</p>
+            <a href="#contact" class="card__link">Подробнее <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+
+          <article class="matrix__card">
+            <h3 class="matrix__card-title">Бизнес</h3>
+            <p class="matrix__card-text">HeadHunter, Нетология, Профилум. Выстраивание B2G-стратегий, сохранение IT-аккредитаций и запуск цифровых продуктов с охватом десятков тысяч пользователей по всей стране.</p>
+            <a href="#contact" class="card__link">Подробнее <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+
+          <article class="matrix__card">
+            <h3 class="matrix__card-title">Общество</h3>
+            <p class="matrix__card-text">ОНФ и АНО «Зеленая дверь». Организация общественного контроля за госзакупками, координация волонтерских штабов и внедрение реальных практик инклюзивного найма.</p>
+            <a href="#contact" class="card__link">Подробнее <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. ПРОДУКТОВЫЙ ПОРТФЕЛЬ ==================== -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="services__container">
+        <h2 class="services__title" id="services-title">Ключевые направления</h2>
+
+        <div class="services-grid">
+          <article class="services-grid__item">
+            <span class="services-grid__index" aria-hidden="true">01</span>
+            <h3 class="services-grid__title">GR и IT-аккредитация</h3>
+            <p class="services-grid__text">Сопровождение диалога IT-компаний с регулятором. От аудита нормативной базы до защиты льгот и статуса аккредитованной IT-компании.</p>
+            <a href="#contact" class="card__link">Обсудить задачу <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+
+          <article class="services-grid__item">
+            <span class="services-grid__index" aria-hidden="true">02</span>
+            <h3 class="services-grid__title">B2G-консалтинг</h3>
+            <p class="services-grid__text">Построение каналов продаж для EdTech и HR-tech в государственном секторе. Работа в рамках 44-ФЗ и 223-ФЗ, адаптация продуктов под логику чиновников.</p>
+            <a href="#contact" class="card__link">Обсудить задачу <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+
+          <article class="services-grid__item">
+            <span class="services-grid__index" aria-hidden="true">03</span>
+            <h3 class="services-grid__title">Инклюзивный найм</h3>
+            <p class="services-grid__text">Проектирование программ равных возможностей. Помогаю крупному бизнесу и АПК выполнять квоты на найм людей с инвалидностью, избегать штрафов и решать проблему кадрового голода.</p>
+            <a href="#contact" class="card__link">Обсудить задачу <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+
+          <article class="services-grid__item">
+            <span class="services-grid__index" aria-hidden="true">04</span>
+            <h3 class="services-grid__title">Лекции и модерация</h3>
+            <p class="services-grid__text">Спикер федеральных форумов (ВНОТ, ПМЭФ, Знание), эксперт Лиги лекторов. Модерация круглых столов и фасилитация стратегических сессий для госсектора.</p>
+            <a href="#contact" class="card__link">Пригласить спикера <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. ФЛАГМАНСКИЕ КЕЙСЫ ==================== -->
+    <section class="cases" id="cases" aria-labelledby="cases-title">
+      <div class="cases__container">
+        <h2 class="cases__title" id="cases-title">Практика и результаты</h2>
+
+        <div class="cases__timeline">
+          <article class="cases__item">
+            <div class="cases__card">
+              <span class="cases__date">Февраль 2025</span>
+              <h3 class="cases__item-title">Постановление Правительства РФ № 130</h3>
+              <p class="cases__item-text">Разработал проект нормативного акта для запуска Национальной системы подтверждения ИТ-компетенций (документ подписан М.В. Мишустиным). Координировал Экспертный совет из 38 ведущих организаций (Минтруд, VK, Сколково, 1С).</p>
+              <div class="cases__badges">
+                <span class="cases__badge">Нормотворчество</span>
+                <span class="cases__badge">Минцифры</span>
+              </div>
+              <a href="#contact" class="cases__cta">Узнать детали <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+            </div>
+          </article>
+
+          <article class="cases__item">
+            <div class="cases__card">
+              <span class="cases__date">Запуск в 2026</span>
+              <h3 class="cases__item-title">Платформа равных возможностей hh.ru</h3>
+              <p class="cases__item-text">Реализовал системную инициативу инклюзивного найма совместно с Агентством стратегических инициатив (АСИ). Внедрена система фильтров и разметки вакансий для соискателей с особенностями здоровья. Отмечен корпоративной наградой «Забота и человечность».</p>
+              <div class="cases__badges">
+                <span class="cases__badge">Инклюзия</span>
+                <span class="cases__badge">HR-tech</span>
+              </div>
+              <a href="#contact" class="cases__cta">Узнать детали <span class="card__link-arrow" aria-hidden="true">&rarr;</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 5. CALL TO ACTION / ФОРМА СВЯЗИ ==================== -->
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact__container">
+        <h2 class="contact__title" id="contact-title">Сотрудничество начинается с диалога</h2>
+        <p class="contact__subtitle">Я беру в работу ограниченное количество проектов. Если ваша задача требует точной экспертизы на стыке интересов бизнеса, общества и государственных структур — напишите мне.</p>
+
+        <form class="contact__form" id="contact-form" action="/api/send-form" method="POST" novalidate>
+          <div class="contact__row">
+            <div class="contact__field">
+              <label class="contact__label" for="name">Имя</label>
+              <input class="contact__input" type="text" id="name" name="name" required autocomplete="name" aria-describedby="name-error">
+              <span class="contact__error" id="name-error" role="alert" aria-live="polite"></span>
+            </div>
+
+            <div class="contact__field">
+              <label class="contact__label" for="contact-info">Email или Telegram</label>
+              <input class="contact__input" type="text" id="contact-info" name="contact_info" required autocomplete="email" aria-describedby="contact-info-error">
+              <span class="contact__error" id="contact-info-error" role="alert" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__label" for="message">Суть задачи</label>
+            <textarea class="contact__textarea" id="message" name="message" rows="4" required aria-describedby="message-error"></textarea>
+            <span class="contact__error" id="message-error" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="contact__consent">
+            <input class="contact__checkbox" type="checkbox" id="consent" name="consent" required>
+            <label class="contact__consent-label" for="consent">
+              Я согласен на обработку персональных данных в соответствии с
+              <a href="privacy.html" class="contact__policy-link">Политикой конфиденциальности</a>
+            </label>
+          </div>
+
+          <button class="contact__submit button button--primary" type="submit">
+            <span class="contact__submit-text">Начать диалог</span>
+          </button>
+
+          <p class="contact__microtext">Форма проходит через защищённый канал. Обработка данных — согласно 152-ФЗ.</p>
+          <p class="contact__status" id="contact-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="footer__container">
+      <p class="footer__copyright">&copy; 2026 Иннокентий Бадмаев. Все права защищены.</p>
+
+      <nav class="footer__nav" aria-label="Юридическая информация">
+        <a class="footer__link" href="privacy.html">Политика конфиденциальности</a>
+      </nav>
+
+      <div class="footer__socials">
+        <a href="https://telegram.me/i_badmaev" class="footer__social-link" aria-label="Telegram" target="_blank" rel="noopener noreferrer me">
+          TG
+        </a>
+        <a href="https://setka.ru/users/2638cc5f-790b-4da6-909e-8d99691bec29" class="footer__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer me">
+          hh
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== COOKIE CONSENT (152-ФЗ) ==================== -->
+  <div class="cookie-consent" id="cookie-consent" role="dialog" aria-label="Уведомление об использовании cookie" hidden>
+    <p class="cookie-consent__text">
+      Мы используем файлы cookie для улучшения работы сайта. Продолжая использовать сайт, вы соглашаетесь с
+      <a href="privacy.html" class="cookie-consent__link">Политикой конфиденциальности</a>.
+    </p>
+    <button class="cookie-consent__button button button--primary" id="cookie-consent-accept" type="button">Принять</button>
+  </div>
+
+  <!-- Скрипты подключаются в конце body для скорости загрузки -->
+  <script src="js/cookie-consent.js" defer></script>
+  <script src="js/main.js" defer></script>
+
+</body>
+</html>

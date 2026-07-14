@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Указываем поисковикам путь к карте сайта
+Sitemap: https://твойдомен.ru/sitemap.xml
