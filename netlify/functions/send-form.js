@@ -1,5 +1,12 @@
 // netlify/functions/send-form.js
-// Поддержка нескольких разрешённых доменов через ALLOWED_ORIGIN (список через запятую)
+// Финальная версия: без debug-утечек в ответах, но с логированием на сервере
+
+const MAX_FIELD_LENGTH = 500;
+const MAX_MESSAGE_LENGTH = 3000;
+
+// Список разрешённых доменов читается из переменной окружения через запятую
+const rawAllowed = process.env.ALLOWED_ORIGIN || 'https://isbadmaev.ru';
+const ALLOWED_ORIGINS = rawAllowed.split(',').map(s => s.trim()).filter(Boolean);
 
 function escapeHtml(unsafe) {
   return String(unsafe)
@@ -10,23 +17,16 @@ function escapeHtml(unsafe) {
     .replace(/'/g, '&#039;');
 }
 
-const MAX_FIELD_LENGTH = 500;
-const MAX_MESSAGE_LENGTH = 3000;
-
-// Список разрешённых доменов читается из переменной окружения через запятую.
-const rawAllowed = process.env.ALLOWED_ORIGIN || 'https://isbadmaev.ru';
-const ALLOWED_ORIGINS = rawAllowed.split(',').map(s => s.trim()).filter(Boolean);
-
 function buildHeaders(origin, isAllowed) {
-  const base = {
+  const headers = {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json',
   };
   if (isAllowed) {
-    base['Access-Control-Allow-Origin'] = origin;
+    headers['Access-Control-Allow-Origin'] = origin;
   }
-  return base;
+  return headers;
 }
 
 export const handler = async (event, context) => {
@@ -36,30 +36,24 @@ export const handler = async (event, context) => {
 
   // 1. Предварительный запрос (OPTIONS)
   if (event.httpMethod === 'OPTIONS') {
-    if (!isAllowedOrigin) return { statusCode: 403, body: '' };
-    return { statusCode: 204, headers, body: '' };
+    return { statusCode: isAllowedOrigin ? 204 : 403, headers, body: '' };
   }
 
   // 2. Блокировка доступа с чужих доменов
+  // Тело ответа НЕ содержит список разрешённых доменов — это утечка информации в продакшене
   if (!isAllowedOrigin) {
+    // Логируем попытку на сервере (видно только вам в Netlify Functions logs), но не пользователю
+    console.warn('Blocked request from unauthorized origin:', origin);
     return {
       statusCode: 403,
       headers,
-      body: JSON.stringify({ 
-        error: 'Доступ запрещён',
-        received: origin,            // ПОКАЖЕТ, ЧТО ПРИШЛО
-        allowed: ALLOWED_ORIGINS     // ПОКАЖЕТ, ЧТО ОЖИДАЛОСЬ
-      }),
+      body: JSON.stringify({ error: 'Доступ запрещён' }),
     };
   }
 
-  // 3. Метод должен быть POST
+  // 3. Метод POST
   if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      headers,
-      body: JSON.stringify({ error: 'Метод не разрешён' }),
-    };
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Метод не разрешён' }) };
   }
 
   // 4. Парсинг и валидация
@@ -72,39 +66,42 @@ export const handler = async (event, context) => {
 
   const { name, contact_info, message, consent } = bodyData || {};
 
-  if (!name || !contact_info || !message) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Заполните все поля' }) };
-  }
-
-  if (!consent) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Необходимо согласие' }) };
+  if (!name || !contact_info || !message || !consent) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Заполните все поля и дайте согласие' }) };
   }
 
   if (name.length > MAX_FIELD_LENGTH || contact_info.length > MAX_FIELD_LENGTH || message.length > MAX_MESSAGE_LENGTH) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Превышена длина полей' }) };
   }
 
-  // 5. Отправка в Telegram
+  // 5. Проверка конфигурации сервера
+  // Восстановлено: без этой проверки при отсутствии переменных окружения
+  // запрос уйдет на .../botundefined/sendMessage — ошибка будет менее очевидной в логах
   const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
   if (!BOT_TOKEN || !CHAT_ID) {
+    console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID environment variables');
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Ошибка конфигурации сервера' }) };
   }
 
+  // 6. Отправка в Telegram
   const text = `🔥 <b>Новая заявка!</b>\n\n👤 <b>Имя:</b> ${escapeHtml(name)}\n📞 <b>Контакт:</b> ${escapeHtml(contact_info)}\n\n📝 <b>Задача:</b>\n<i>${escapeHtml(message)}</i>`;
 
   try {
-    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' }),
     });
 
-    if (!response.ok) throw new Error('Ошибка Telegram API');
+    if (!resp.ok) throw new Error(`Telegram API responded with status ${resp.status}`);
+
     return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
   } catch (error) {
-    console.error(error);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Внутренняя ошибка сервера' }) };
+    // Восстановлено: логирование фактической ошибки на сервере,
+    // без этого при сбое Telegram API вы не узнаете причину из логов Netlify
+    console.error('Telegram send error:', error);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Ошибка сервера' }) };
   }
 };
