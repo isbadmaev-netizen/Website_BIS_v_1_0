@@ -15,16 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!hasConsented) {
     // Если нет — ждем 1 секунду и плавно показываем баннер
     setTimeout(() => {
-      cookieBanner.removeAttribute('hidden');
-    }, 1000);
+  cookieBanner.removeAttribute('hidden');
+  requestAnimationFrame(() => {
+    cookieBanner.classList.add('is-visible');
+  });
+}, 1000);
   }
 
   // Что происходит при клике на кнопку "Принять"
   acceptButton.addEventListener('click', () => {
-    // Записываем согласие в память браузера
-    localStorage.setItem('cookie_consent_accepted', 'true');
-    
-    // Плавно прячем баннер
-    cookieBanner.setAttribute('hidden', '');
+  localStorage.setItem('cookie_consent_accepted', 'true');
+  cookieBanner.classList.remove('is-visible');
+  cookieBanner.setAttribute('hidden', '');
   });
 });

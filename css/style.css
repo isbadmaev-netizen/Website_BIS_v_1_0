@@ -379,8 +379,19 @@ a {
     font-size: 0.9375rem;
   }
 }
+@media (max-width: 400px) {
+  .header__logo {
+    font-size: 1rem;
+  }
+  .header__container {
+    padding: 1rem 1.25rem;
+  }
+}
 
 /* ---- 5. HERO ---- */
+.hero, .matrix, .services, .cases, .contact {
+  scroll-margin-top: 6rem;
+}
 .hero {
   padding: 8rem 0 var(--space-section);
   background-color: var(--color-bg);
@@ -479,7 +490,7 @@ a {
   padding: var(--space-section) 0;
 }
 
-.matrix__title, .services__title, .cases__title {
+.matrix__title, .services__title, .cases__title, .contact__title {
   font-size: var(--fs-h2);
   font-weight: var(--fw-black);
   letter-spacing: -0.02em;
@@ -829,6 +840,16 @@ a {
   opacity: 0;
   transform: translateX(-50%) translateY(120%);
   pointer-events: none;
+}
+.cookie-consent:not(.is-visible) {
+  opacity: 0;
+  transform: translateX(-50%) translateY(120%);
+  pointer-events: none;
+}
+.cookie-consent.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
 .cookie-consent__text {

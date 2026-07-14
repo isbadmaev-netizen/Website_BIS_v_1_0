@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
   };
 
-  if (burgerBtn) {
-    burgerBtn.addEventListener('click', () => {
-      menu.classList.contains('is-open') ? closeMenu() : openMenu();
+  if (burgerBtn && menu) {
+  burgerBtn.addEventListener('click', () => {
+    menu.classList.contains('is-open') ? closeMenu() : openMenu();
     });
   }
   if (closeBtn) closeBtn.addEventListener('click', closeMenu);

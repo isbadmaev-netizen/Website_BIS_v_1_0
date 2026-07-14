@@ -65,12 +65,15 @@ export const handler = async (event, context) => {
   }
 
   const { name, contact_info, message, consent } = bodyData || {};
+  const trimmedName = typeof name === 'string' ? name.trim() : '';
+  const trimmedContact = typeof contact_info === 'string' ? contact_info.trim() : '';
+  const trimmedMessage = typeof message === 'string' ? message.trim() : '';
 
-  if (!name || !contact_info || !message || !consent) {
+if (!trimmedName || !trimmedContact || !trimmedMessage || !consent) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Заполните все поля и дайте согласие' }) };
   }
 
-  if (name.length > MAX_FIELD_LENGTH || contact_info.length > MAX_FIELD_LENGTH || message.length > MAX_MESSAGE_LENGTH) {
+  if (trimmedName.length > MAX_FIELD_LENGTH || trimmedContact.length > MAX_FIELD_LENGTH || trimmedMessage.length > MAX_MESSAGE_LENGTH) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Превышена длина полей' }) };
   }
 
@@ -86,7 +89,7 @@ export const handler = async (event, context) => {
   }
 
   // 6. Отправка в Telegram
-  const text = `🔥 <b>Новая заявка!</b>\n\n👤 <b>Имя:</b> ${escapeHtml(name)}\n📞 <b>Контакт:</b> ${escapeHtml(contact_info)}\n\n📝 <b>Задача:</b>\n<i>${escapeHtml(message)}</i>`;
+  const text = `🔥 <b>Новая заявка!</b>\n\n👤 <b>Имя:</b> ${escapeHtml(trimmedName)}\n📞 <b>Контакт:</b> ${escapeHtml(trimmedContact)}\n\n📝 <b>Задача:</b>\n<i>${escapeHtml(trimmedMessage)}</i>`;
 
   try {
     const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
