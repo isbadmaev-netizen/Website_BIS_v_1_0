@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       if (statusBlock) {
-        statusBlock.className = 'contact__status';
+        statusBlock.className = 'contact__status'; // Сбрасываем все классы
         statusBlock.textContent = '';
       }
 
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Вспомогательная функция показа ошибок
       const showError = (inputElement, errorElementId, message) => {
-        inputElement.classList.add('is-invalid');
+        if (inputElement) inputElement.classList.add('is-invalid');
         const errorElement = document.getElementById(errorElementId);
         if (errorElement) {
           errorElement.textContent = message;
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!contactInfoInput.value.trim()) showError(contactInfoInput, 'contact-info-error', 'Укажите контакт для связи');
       if (!messageInput.value.trim()) showError(messageInput, 'message-error', 'Опишите, пожалуйста, вашу задачу');
       
-      if (!consentInput.checked) {
+      if (consentInput && !consentInput.checked) {
          isValid = false;
          if (statusBlock) {
             statusBlock.textContent = 'Необходимо согласие на обработку персональных данных.';
@@ -136,14 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
         message: messageInput.value.trim()
       };
 
-      // Меняем состояние кнопки на "Отправка..."
-      submitBtn.disabled = true;
-      const originalBtnText = submitBtnText.textContent;
-      submitBtnText.textContent = 'Отправка...';
+      // Меняем состояние кнопки на "Отправка..." (с защитой от отсутствия span)
+      let originalBtnText = '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        originalBtnText = submitBtnText ? submitBtnText.textContent : submitBtn.textContent;
+        
+        if (submitBtnText) {
+          submitBtnText.textContent = 'Отправка...';
+        } else {
+          submitBtn.textContent = 'Отправка...';
+        }
+      }
 
       try {
-        // Отправляем запрос на сервер Vercel
-        const response = await fetch('/api/send-form', {
+        // Отправляем запрос на бессерверную функцию Netlify
+        const response = await fetch('/.netlify/functions/send-form', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -154,19 +162,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           // Успех!
           form.reset(); 
-          statusBlock.textContent = 'Спасибо! Заявка успешно отправлена. Я свяжусь с вами в ближайшее время.';
-          statusBlock.classList.add('is-success');
+          if (statusBlock) {
+            statusBlock.textContent = 'Спасибо! Заявка успешно отправлена. Я свяжусь с вами в ближайшее время.';
+            statusBlock.classList.add('is-success', 'is-visible');
+          }
         } else {
           throw new Error('Ошибка сервера');
         }
       } catch (error) {
-        // Ошибка (например, нет интернета)
-        statusBlock.textContent = 'Произошла ошибка при отправке. Пожалуйста, попробуйте позже или напишите напрямую в Telegram.';
-        statusBlock.classList.add('is-error');
+        // Ошибка (например, нет интернета или ошибка сервера)
+        if (statusBlock) {
+          statusBlock.textContent = 'Произошла ошибка при отправке. Пожалуйста, попробуйте позже или напишите напрямую в Telegram.';
+          statusBlock.classList.add('is-error', 'is-visible');
+        }
       } finally {
         // Возвращаем кнопку в исходное состояние
-        submitBtn.disabled = false;
-        submitBtnText.textContent = originalBtnText;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          if (submitBtnText) {
+            submitBtnText.textContent = originalBtnText;
+          } else {
+            submitBtn.textContent = originalBtnText;
+          }
+        }
       }
     });
   }
