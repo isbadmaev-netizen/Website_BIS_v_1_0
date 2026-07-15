@@ -248,6 +248,11 @@
             <textarea class="contact__textarea" id="message" name="message" rows="4" required aria-describedby="message-error"></textarea>
             <span class="contact__error" id="message-error" role="alert" aria-live="polite"></span>
           </div>
+          
+          <div style="display: none;" aria-hidden="true">
+              <label for="bot-field">Не заполняйте это поле, если вы человек:</label>
+              <input type="text" id="bot-field" name="bot-field" tabindex="-1">
+          </div>
 
           <div class="contact__consent">
             <input class="contact__checkbox" type="checkbox" id="consent" name="consent" required>

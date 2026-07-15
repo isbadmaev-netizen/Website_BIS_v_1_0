@@ -40,9 +40,7 @@ export const handler = async (event, context) => {
   }
 
   // 2. Блокировка доступа с чужих доменов
-  // Тело ответа НЕ содержит список разрешённых доменов — это утечка информации в продакшене
   if (!isAllowedOrigin) {
-    // Логируем попытку на сервере (видно только вам в Netlify Functions logs), но не пользователю
     console.warn('Blocked request from unauthorized origin:', origin);
     return {
       statusCode: 403,
@@ -64,12 +62,25 @@ export const handler = async (event, context) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Неверный формат данных' }) };
   }
 
-  const { name, contact_info, message, consent } = bodyData || {};
+  // Извлекаем все поля, включая нашу ловушку bot_field
+  const { name, contact_info, message, consent, bot_field } = bodyData || {};
+
+  // 🛑 HONEYPOT ЗАЩИТА: Если скрытое поле заполнено, значит форму отправил бот.
+  // Возвращаем статус 200 (успех), чтобы бот "ушел довольным", но письмо не отправляем.
+  if (bot_field) {
+    console.warn('Spam bot blocked by honeypot.');
+    return { 
+      statusCode: 200, 
+      headers, 
+      body: JSON.stringify({ success: true }) 
+    };
+  }
+
   const trimmedName = typeof name === 'string' ? name.trim() : '';
   const trimmedContact = typeof contact_info === 'string' ? contact_info.trim() : '';
   const trimmedMessage = typeof message === 'string' ? message.trim() : '';
 
-if (!trimmedName || !trimmedContact || !trimmedMessage || !consent) {
+  if (!trimmedName || !trimmedContact || !trimmedMessage || !consent) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Заполните все поля и дайте согласие' }) };
   }
 
@@ -78,8 +89,6 @@ if (!trimmedName || !trimmedContact || !trimmedMessage || !consent) {
   }
 
   // 5. Проверка конфигурации сервера
-  // Восстановлено: без этой проверки при отсутствии переменных окружения
-  // запрос уйдет на .../botundefined/sendMessage — ошибка будет менее очевидной в логах
   const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -102,8 +111,6 @@ if (!trimmedName || !trimmedContact || !trimmedMessage || !consent) {
 
     return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
   } catch (error) {
-    // Восстановлено: логирование фактической ошибки на сервере,
-    // без этого при сбое Telegram API вы не узнаете причину из логов Netlify
     console.error('Telegram send error:', error);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Ошибка сервера' }) };
   }

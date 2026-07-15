@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const contactInput = document.getElementById('contact-info');
       const messageInput = document.getElementById('message');
       const consentInput = document.getElementById('consent');
+      const botFieldInput = document.getElementById('bot-field');
 
       let isValid = true;
       let firstInvalidField = null;
@@ -137,7 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
         name: nameInput.value.trim(),
         contact_info: contactInput.value.trim(),
         message: messageInput.value.trim(),
-        consent: consentInput ? consentInput.checked : false
+        consent: consentInput ? consentInput.checked : false,
+        bot_field: botFieldInput ? botFieldInput.value : ''
       };
 
       // Состояние кнопки "Отправка..."
