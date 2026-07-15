@@ -1,3 +1,8 @@
+# ЖЕСТКОЕ ОТКЛЮЧЕНИЕ PASSENGER
+<IfModule mod_passenger.c>
+  PassengerEnabled off
+</IfModule>
+
 # Настройки безопасности (CORS, CSP, защита от кликджекинга)
 <IfModule mod_headers.c>
   Header set X-Frame-Options "DENY"
