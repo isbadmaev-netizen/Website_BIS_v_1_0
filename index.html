@@ -89,9 +89,11 @@
     <section class="hero" id="hero" aria-labelledby="hero-title">
       <div class="hero__media" aria-hidden="true"></div>
 
-      <div class="hero__container">
-        <div class="hero__content">
-          <img src="assets/images/avatar.jpg" alt="Иннокентий Бадмаев" class="hero__avatar" width="180" height="220">
+      <div class="hero__content">
+          <picture>
+            <source srcset="assets/images/avatar.webp" type="image/webp">
+            <img src="assets/images/avatar.jpg" alt="Иннокентий Бадмаев" class="hero__avatar" width="180" height="220" fetchpriority="high">
+          </picture>
           
           <h1 class="hero__title" id="hero-title">Эксперт по рынку труда, инклюзии и цифровому развитию</h1>
           <p class="hero__subtitle">Строю мосты между государством, бизнесом и людьми</p>

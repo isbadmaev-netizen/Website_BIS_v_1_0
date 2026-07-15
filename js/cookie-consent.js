@@ -13,19 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const hasConsented = localStorage.getItem('cookie_consent_accepted');
 
   if (!hasConsented) {
-    // Если нет — ждем 1 секунду и плавно показываем баннер
-    setTimeout(() => {
-  cookieBanner.removeAttribute('hidden');
-  requestAnimationFrame(() => {
-    cookieBanner.classList.add('is-visible');
-  });
-}, 1000);
+    // Инкапсулируем логику показа
+    const showBanner = () => {
+      cookieBanner.removeAttribute('hidden');
+      requestAnimationFrame(() => {
+        cookieBanner.classList.add('is-visible');
+      });
+    };
+
+    // Кроссбраузерная защита: используем requestIdleCallback, а для Safari/iOS откатываемся к setTimeout
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(showBanner, { timeout: 2000 });
+    } else {
+      setTimeout(showBanner, 1000);
+    }
   }
 
   // Что происходит при клике на кнопку "Принять"
   acceptButton.addEventListener('click', () => {
-  localStorage.setItem('cookie_consent_accepted', 'true');
-  cookieBanner.classList.remove('is-visible');
-  cookieBanner.setAttribute('hidden', '');
+    localStorage.setItem('cookie_consent_accepted', 'true');
+    cookieBanner.classList.remove('is-visible');
+    cookieBanner.setAttribute('hidden', '');
   });
 });
