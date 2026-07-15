@@ -71,6 +71,13 @@
   }
 }
 
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter-var.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 /* ---- 2. БАЗА ---- */
 body {
   font-family: var(--font-main);
@@ -208,6 +215,9 @@ a {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  /* GPU-ускорение для плавного скролла под шапкой */
+  will-change: transform, backdrop-filter;
+  transform: translateZ(0);
 }
 
 /* Размытие вынесено на отдельный слой, чтобы не блокировать мобильное меню */
@@ -833,22 +843,25 @@ a {
   border-radius: var(--radius-lg);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   transition: all var(--transition-base);
+  /* GPU-инъекция для плавной анимации появления баннера */
+  will-change: transform, opacity;
+  transform: translateX(-50%) translateZ(0);
 }
 
 .cookie-consent[hidden] {
   display: flex;
   opacity: 0;
-  transform: translateX(-50%) translateY(120%);
+  transform: translateX(-50%) translateY(120%) translateZ(0);
   pointer-events: none;
 }
 .cookie-consent:not(.is-visible) {
   opacity: 0;
-  transform: translateX(-50%) translateY(120%);
+  transform: translateX(-50%) translateY(120%) translateZ(0);
   pointer-events: none;
 }
 .cookie-consent.is-visible {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0) translateZ(0);
   pointer-events: auto;
 }
 
@@ -873,4 +886,14 @@ a {
   .cookie-consent__text {
     text-align: left;
   }
+}
+.footer__social-link svg {
+  color: var(--color-text);
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.footer__social-link:hover svg {
+  opacity: 1;
+  color: var(--color-text-secondary);
 }
