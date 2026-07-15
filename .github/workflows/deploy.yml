@@ -13,12 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: "placeholder"
-
-      - name: Deploy with rsync
+      - name: Setup SSH and Deploy
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
-          rsync -avz --delete --exclude '.git' --exclude '.github' -e "ssh -o StrictHostKeyChecking=no" ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/isbadmaev.ru/
+          # 1. Создаем скрытую папку для ключей
+          mkdir -p ~/.ssh
+          
+          # 2. Кладем твой секретный ключ в файл и даем правильные права
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          
+          # 3. Жестко отключаем проверку Host Key (решает твою ошибку)
+          echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          
+          # 4. Запускаем копирование файлов
+          rsync -avz --delete --exclude '.git' --exclude '.github' ./ ${SSH_USERNAME}@${SSH_HOST}:~/www/isbadmaev.ru/
