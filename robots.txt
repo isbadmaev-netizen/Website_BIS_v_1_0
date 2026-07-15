@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 
 # Указываем поисковикам путь к карте сайта
-Sitemap: https://твойдомен.ru/sitemap.xml
+Sitemap: https://isbadmaev.ru/sitemap.xml
