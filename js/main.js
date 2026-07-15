@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           e.preventDefault();
-          const headerOffset = 80; // Отступ для плавающей шапки
+          const header = document.querySelector('.header');
+          const headerOffset = header ? header.offsetHeight : 80; // Отступ для плавающей шапки
           const elementPosition = targetElement.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
