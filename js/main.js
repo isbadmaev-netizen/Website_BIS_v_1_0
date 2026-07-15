@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (burgerBtn && menu) {
-  burgerBtn.addEventListener('click', () => {
-    menu.classList.contains('is-open') ? closeMenu() : openMenu();
+    burgerBtn.addEventListener('click', () => {
+      menu.classList.contains('is-open') ? closeMenu() : openMenu();
     });
   }
   if (closeBtn) closeBtn.addEventListener('click', closeMenu);
@@ -65,9 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitBtn = form ? form.querySelector('.contact__submit') : null;
   const submitBtnText = submitBtn ? submitBtn.querySelector('.contact__submit-text') : null;
 
-  // Единый путь запроса. Реальный маршрут /.netlify/functions/send-form
-  // проксируется через redirect в netlify.toml — так URL не завязан на конкретный хостинг
-  const SUBMIT_ENDPOINT = '/api/send-form';
+  // Единый путь запроса на Рег.ру (обращение к нашему PHP-скрипту)
+  const SUBMIT_ENDPOINT = '/send-form.php';
 
   if (form) {
     // Вспомогательная функция вывода ошибки под конкретным полем + возврат фокуса
