@@ -1,10 +1,6 @@
-// netlify/functions/send-form.js
-// Финальная версия: без debug-утечек в ответах, но с логированием на сервере
-
 const MAX_FIELD_LENGTH = 500;
 const MAX_MESSAGE_LENGTH = 3000;
 
-// Список разрешённых доменов читается из переменной окружения через запятую
 const rawAllowed = process.env.ALLOWED_ORIGIN || 'https://isbadmaev.ru';
 const ALLOWED_ORIGINS = rawAllowed.split(',').map(s => s.trim()).filter(Boolean);
 
@@ -34,12 +30,10 @@ export const handler = async (event, context) => {
   const isAllowedOrigin = ALLOWED_ORIGINS.includes(origin);
   const headers = buildHeaders(origin, isAllowedOrigin);
 
-  // 1. Предварительный запрос (OPTIONS)
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: isAllowedOrigin ? 204 : 403, headers, body: '' };
   }
 
-  // 2. Блокировка доступа с чужих доменов
   if (!isAllowedOrigin) {
     console.warn('Blocked request from unauthorized origin:', origin);
     return {
@@ -49,12 +43,10 @@ export const handler = async (event, context) => {
     };
   }
 
-  // 3. Метод POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Метод не разрешён' }) };
   }
 
-  // 4. Парсинг и валидация
   let bodyData;
   try {
     bodyData = JSON.parse(event.body);
@@ -62,11 +54,8 @@ export const handler = async (event, context) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Неверный формат данных' }) };
   }
 
-  // Извлекаем все поля, включая нашу ловушку bot_field
   const { name, contact_info, message, consent, bot_field } = bodyData || {};
 
-  // 🛑 HONEYPOT ЗАЩИТА: Если скрытое поле заполнено, значит форму отправил бот.
-  // Возвращаем статус 200 (успех), чтобы бот "ушел довольным", но письмо не отправляем.
   if (bot_field) {
     console.warn('Spam bot blocked by honeypot.');
     return { 
@@ -88,7 +77,6 @@ export const handler = async (event, context) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Превышена длина полей' }) };
   }
 
-  // 5. Проверка конфигурации сервера
   const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -97,7 +85,6 @@ export const handler = async (event, context) => {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Ошибка конфигурации сервера' }) };
   }
 
-  // 6. Отправка в Telegram
   const text = `🔥 <b>Новая заявка!</b>\n\n👤 <b>Имя:</b> ${escapeHtml(trimmedName)}\n📞 <b>Контакт:</b> ${escapeHtml(trimmedContact)}\n\n📝 <b>Задача:</b>\n<i>${escapeHtml(trimmedMessage)}</i>`;
 
   try {
