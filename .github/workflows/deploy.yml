@@ -30,4 +30,4 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
           
           # 4. Запускаем копирование файлов
-          rsync -avz --delete --exclude '.git' --exclude '.github' ./ ${SSH_USERNAME}@${SSH_HOST}:~/www/isbadmaev.ru/
+          rsync -avz --delete --exclude '.git' --exclude '.github' -e "ssh -vvv -o StrictHostKeyChecking=no" ./ ${SSH_USERNAME}@${SSH_HOST}:~/www/isbadmaev.ru/
