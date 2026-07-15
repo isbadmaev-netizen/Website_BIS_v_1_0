@@ -1,15 +1,37 @@
-# isbadmaev.ru
+# 🚀 Иннокентий Бадмаев — Личный сайт-визитка
 
-Личный сайт-визитка. 
-Стек: HTML5, CSS3, Vanilla JS, Netlify Serverless Functions.
+Официальный веб-сайт [isbadmaev.ru](https://isbadmaev.ru), разработанный для презентации экспертизы в сфере рынка труда, инклюзии и B2G-консалтинга. 
 
-## Развертывание (Deploy)
+Проект спроектирован с упором на максимальную производительность (Core Web Vitals), семантическую доступность (a11y) и безопасность данных без использования тяжеловесных фреймворков.
 
-Проект настроен для автоматического деплоя через **Netlify**.
+---
 
-### Переменные окружения (Environment Variables)
-Для корректной работы формы обратной связи, в панели управления Netlify (Site settings > Environment variables) должны быть заданы следующие ключи:
+## ✨ Технические особенности (Features)
 
-* `ALLOWED_ORIGIN` — `https://isbadmaev.ru`
-* `TELEGRAM_BOT_TOKEN` — токен бота, полученный в BotFather.
-* `TELEGRAM_CHAT_ID` — ID чата, куда бот будет отправлять заявки.
+* **Extreme Performance:** Загрузка первого экрана (LCP) менее 1 секунды. Реализована предзагрузка шрифтов, использование современных WebP-изображений через тег `<picture>`, аппаратное ускорение CSS-анимаций и неблокирующая отрисовка служебных скриптов (`requestIdleCallback`).
+* **Serverless Architecture:** Обработка формы обратной связи реализована через бессерверные функции **Netlify Functions**. Данные валидируются на бэкенде и отправляются напрямую в Telegram API, минуя базы данных.
+* **Security & CORS:** Настроена строгая политика безопасности контента (CSP). API-эндпоинты защищены жестким списком разрешенных доменов (CORS whitelist). 
+* **152-ФЗ Compliance:** Транзитная передача персональных данных по защищенным каналам связи. Адаптивный Cookie-баннер.
+* **Clean Code:** 100% Vanilla-стек. Изолированные CSS-модули по методологии BEM.
+
+## 🛠 Стек технологий
+
+* **Frontend:** HTML5, CSS3 (Custom Properties, Flexbox/Grid), Vanilla JavaScript (ES6+).
+* **Backend:** Node.js (Netlify Serverless Functions).
+* **Инфраструктура:** Git, GitHub, Netlify (Continuous Deployment).
+* **Дизайн:** Premium Dark Bento UI.
+
+---
+
+## 📂 Структура проекта
+
+```text
+├── assets/                  # Изображения, векторные иконки, манифесты и локальные шрифты
+├── css/                     # Стили (normalize.css и основной style.css)
+├── js/                      # Клиентские скрипты (main.js, cookie-consent.js)
+├── netlify/functions/       # Бэкенд: серверная функция отправки заявок (send-form.js)
+├── index.html               # Главная страница
+├── privacy.html             # Политика конфиденциальности
+├── netlify.toml             # Конфигурация сервера (редиректы, CSP, кэширование)
+├── robots.txt & sitemap.xml # SEO-файлы
+└── README.md                # Документация проекта
