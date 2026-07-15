@@ -10,9 +10,11 @@
   <link rel="canonical" href="https://isbadmaev.ru/privacy.html">
 
   <!-- Favicons: единые для всех страниц сайта -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicons/favicon-96x96.png">
   <link rel="icon" href="assets/favicons/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
   <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/favicons/site.webmanifest">
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
@@ -84,6 +86,12 @@
     .privacy__back:hover {
       color: var(--color-text-secondary);
     }
+    .privacy__container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding-left: var(--container-padding);
+      padding-right: var(--container-padding);
+    }
   </style>
 </head>
 <body>
@@ -93,13 +101,13 @@
   <!-- Лёгкая шапка для единого бренд-стиля со всеми страницами сайта -->
   <header class="header">
     <div class="header__container">
-      <a href="index.html#hero" class="header__logo">И. Бадмаев</a>
+      <a href="index.html#hero" class="header__logo">Иннокентий Бадмаев</a>
     </div>
   </header>
 
   <main class="main">
     <section class="privacy" id="privacy-content" aria-labelledby="privacy-title">
-      <div class="header__container">
+      <div class="privacy__container">
         <div class="privacy__content">
           <a href="index.html" class="privacy__back">&larr; Вернуться на главную</a>
 
