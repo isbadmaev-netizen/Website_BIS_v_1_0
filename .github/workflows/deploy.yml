@@ -2,25 +2,23 @@ name: Deploy to Reg.ru via SSH
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: unnecessary
+          known_hosts: "placeholder"
 
       - name: Deploy with rsync
         run: |
-          rsync -avz --delete \
-            --exclude '.git*' \
-            --exclude '.github' \
-            --exclude 'netlify' \
-            --exclude 'netlify.toml' \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEST_PATH }}
+          rsync -avz --delete --exclude '.git' --exclude '.github' -e "ssh -o StrictHostKeyChecking=no" ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/www/isbadmaev.ru/
